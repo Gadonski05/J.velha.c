@@ -2,58 +2,125 @@
 Projeto básico do jogo da velha.
 
 #include <stdio.h>
+#include <stdlib.h>
 
-typedef struct {
-    char nome[100];
-    int idade;
-    float salario;
-    int anos;
-    char cargo[50];
-} funcionario;
+int main(){
+  
+  int l, c, linha, coluna, jogador, ganhou, jogadas, opcao;
+  char jogo[3][3];
 
-void cadastra(funcionario *f) {
-    for (int i = 1; i < 3; i++) {
-        printf("\n----funcionario %i----\n", i);
-        printf("Digite o nome: ");
-        scanf(" %[^\n]", f[i].nome);
-        printf("Digite a idade: ");
-        scanf("%i", &f[i].idade);
-        printf("Digite o salario: ");
-        scanf("%f", &f[i].salario);
-        printf("Digite quantos anos de empresa: ");
-        scanf("%i", &f[i].anos);
-        printf("Digite o cargo: ");
-        scanf(" %[^\n]", f[i].cargo);
-    }
+  do{ 
+    jogador = 1;
+    ganhou = 0;
+    jogadas = 0;
+       
+  for(l = 0; l < 3; l++){
+    for(c = 0; c < 3; c++){
+        jogo[l][c] = ' ';
+  }
 }
 
-void imprime(funcionario *f) {
-    for (int i = 1; i < 3; i++) {
-        printf("\n----Dados do funcionario %i----\n", i);
-        printf("Nome: %s\n", f[i].nome);
-        printf("Idade: %i\n", f[i].idade);
-        printf("Salario: %.2f\n", f[i].salario);
-        printf("Anos: %i\n", f[i].anos);
-        printf("Cargo: %s\n", f[i].cargo);
-    }
-}
-
-void mediaidade(funcionario *f) {
-    int somaidades = 0;
-    for (int i = 1; i < 3; i++) {
-        somaidades += f[i].idade;
-    }
-    float media = (float) somaidades / 2;
-    printf("\nIdade media: %.2f\n", media);
-}
-
-int main(void) {
-    funcionario f[2];
+do{ 
+  printf("\n\n\t 0   1   2\n\n");
     
-    cadastra(f);
-    imprime(f);
-    mediaidade(f);
+   for(l = 0; l < 3; l++){
+    for(c = 0; c < 3; c++){
+        
+  if(c == 0)
+    printf("\t");
+    printf(" %c ", jogo[l][c]);
+        
+  if(c < 2)
+    printf("|");
+        
+  if(c == 2)
+    printf("  %d", l);
+}
+  if(l < 2)
+    printf("\n\t-----------");
+    printf("\n");
+            }
+
+ do{
+    printf("\nJOGADOR 1 = 0\nJOGADOR 2 = X\n");
+    printf("\nJOGADOR %d: Digite a linha e a coluna: ", jogador);
+    scanf("%d%d", &linha, &coluna);
+   
+}
+   while(linha < 0 || linha > 2 || coluna < 0 || coluna > 2 || jogo[linha][coluna] != ' ');
+
+  if(jogador == 1){
+    jogo[linha][coluna] = '0';
+       jogador++;
     
+}else{
+    jogo[linha][coluna] = 'X';
+      jogador = 1;
+            }
+            jogadas++;
+
+  if(jogo[0][0] == '0' && jogo[0][1] == '0' && jogo[0][2] == '0' || jogo[1][0] == '0' && jogo[1][1] == '0' && jogo[1][2] == '0' || jogo[2][0] == '0' && jogo[2][1] == '0' && jogo[2][2] == '0'){
+               
+    printf("\njogador 1 venceu por linha!\n");
+    ganhou = 1;
+}
+
+  if(jogo[0][0] == 'X' && jogo[0][1] == 'X' && jogo[0][2] == 'X' || jogo[1][0] == 'X' && jogo[1][1] == 'X' && jogo[1][2] == 'X' || jogo[2][0] == 'X' && jogo[2][1] == 'X' && jogo[2][2] == 'X'){
+    printf("\n jogador 2 venceu por linha!\n");
+    ganhou = 1;
+}
+
+  if(jogo[0][0] == '0' && jogo[1][0] == '0' && jogo[2][0] == '0' || jogo[0][1] == '0' && jogo[1][1] == '0' && jogo[2][1] == '0' || jogo[0][2] == '0' && jogo[1][2] == '0' && jogo[2][2] == '0'){
+                
+    printf("\njogador 1 venceu por coluna!\n");
+    ganhou = 1;
+}
+  if(jogo[0][0] == 'X' && jogo[1][0] == 'X' && jogo[2][0] == 'X' ||jogo[0][1] == 'X' && jogo[1][1] == 'X' && jogo[2][1] == 'X' || jogo[0][2] == 'X' && jogo[1][2] == 'X' && jogo[2][2] == 'X'){
+    printf("\njogador 2 venceu por coluna!\n");
+    ganhou = 1;
+            }
+
+  if(jogo[0][0] == '0' && jogo[1][1] == '0' && jogo[2][2] == '0'){
+    printf("\n1 venceu na diag. principal!\n");
+    ganhou = 1;        
+  }
+  if(jogo[0][0] == 'X' && jogo[1][1] == 'X' && jogo[2][2] == 'X'){
+    printf("\nPjogador 2 venceu na diag. principal!\n");            ganhou = 1;
+  }
+
+  if(jogo[0][2] == '0' && jogo[1][1] == '0' && jogo[2][0] == '0'){
+    printf("\njogador 1 venceu na diag. secindaria!\n");
+    ganhou = 1;
+  }
+
+  if(jogo[0][2] == 'X' && jogo[1][1] == 'X' && jogo[2][0] == 'X'){
+    printf("\njogador 2 venceu na diag. secundaria!\n");
+    ganhou = 1;
+  }
+}while(ganhou == 0 && jogadas < 9);
+
+    printf("\n\n\t 0   1   2\n\n");
+    for(l = 0; l < 3; l++){
+      for(c = 0; c < 3; c++){
+        if(c == 0)
+    printf("\t");
+    printf(" %c ", jogo[l][c]);
+        if(c < 2)
+    printf("|");
+        if(c == 2)
+    printf("  %d", l);
+}
+        if(l < 2)
+    printf("\n\t-----------");
+    printf("\n");
+}
+    if(ganhou == 0)
+    printf("\nO jogo finalizou sem gamhador!\n");
+
+    printf("\nDigite 1 para jogar novamente: \n");
+    scanf("%d", &opcao);
+    
+  }while(opcao == 1);
+
     return 0;
 }
-
